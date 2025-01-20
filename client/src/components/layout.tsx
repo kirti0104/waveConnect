@@ -3,6 +3,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 import { RootState } from "../redux/store";
+import Cookies from "js-cookie";
 
 const Layout: React.FC = () => {
   const user=useSelector((state:RootState)=>state.user)
@@ -15,7 +16,7 @@ const Layout: React.FC = () => {
         </div>
         <ul className="text-white px-12 pt-4 space-y-4">
         <li className="cursor-pointer hover:bg-[#BEA16E] p-2 rounded flex items-center gap-2">
-           <Link to="/dashboard" className="flex items-center gap-2">
+           <Link to="/main/dashboard" className="flex items-center gap-2">
              <img src="/dashboard.png" className="h-8 w-8" alt="Dashboard Icon" />
               <span>Dashboard</span>
               </Link>
@@ -55,7 +56,8 @@ const Layout: React.FC = () => {
          <div className="logoutButton text-white absolute bottom-14 ms-16 flex gap-4">
           <Link to="/login" className="flex items-center gap-2">
           <img src="/logoutArrow.png " className="h-6 w-6"/>
-          <span>Log Out</span>
+          <span onClick={() => { Cookies.remove('authToken'); }}>Log Out</span>
+
           </Link>
             
         </div>

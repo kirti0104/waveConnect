@@ -6,7 +6,7 @@ import store from "./redux/store";
 import Signup from "./pages/signup";
 import Login from "./pages/login";
 import Layout from "./components/layout";
-import ProtectedRoute from "./components/protectedRoutes";
+import {ProtectedRoute,ProtectedLoginRoute} from "./utils/protectedRoutes";
 import Profile from "./pages/profile";
 import AdminSignup from "./pages/adminSignup";
 import AdminLogin from "./pages/adminLogin";
@@ -17,6 +17,9 @@ import Friends from "./pages/friends";
 import CreateWaves from "./pages/createWaves";
 import Dashboard from "./pages/dashboard";
 import ChangePassword from "./pages/changePassword";
+
+
+
 
 const queryClient = new QueryClient();
 
@@ -31,12 +34,15 @@ const router = createBrowserRouter([
     element:<AdminLogin/>
   },
   {
-    path: "/",
+    path: "/signup",
     element: <Signup />,
   },
   {
     path: "/login",
-    element: <Login />,
+    element: 
+    <ProtectedLoginRoute>
+      <Login />
+      </ProtectedLoginRoute>,
   },
   {
     path: "/adminDashboard",
@@ -54,7 +60,10 @@ const router = createBrowserRouter([
     children: [
       {
         path: "dashboard",
-        element: <Dashboard/>,
+        element:
+        <ProtectedRoute>
+          <Dashboard/>,
+          </ProtectedRoute>
       },
       {
         path: "profile/:userId",

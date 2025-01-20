@@ -48,8 +48,11 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<UserState>) => {
+      localStorage.setItem('user',JSON.stringify(action.payload))
       return { ...state, ...action.payload, isLoggedIn: true };
+      
     },
+    
     clearUser: () => initialState,
   },
 });
