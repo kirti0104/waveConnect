@@ -64,7 +64,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      <div className="mt-8 border-b bg-white rounded-[10px] p-8 shadow-lg">
+      <div className="mt-2 border-b bg-white rounded-[10px] p-8 shadow-lg">
         <h1 className="text-xl text-[#292929]">Making Waves</h1>
         <div className="waves-list mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {waves?.map((wave: Wave) => (
@@ -88,6 +88,9 @@ const Dashboard = () => {
 
           ))}
         </div>
+      </div>
+      <div className='mt-4 bg-white rounded-[10px] p-8'>
+           <h1 className="text-xl text-[#292929]">Friends</h1>
       </div>
       {selectedWave && (
         <WaveModal
