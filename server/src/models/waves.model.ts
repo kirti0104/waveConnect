@@ -1,6 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/db';
 import User from './user.model';
+import Comments from './comments.model';
 
 class Waves extends Model{
    public id!: number;
@@ -77,5 +78,7 @@ Waves.init({
     sequelize,tableName:'waves'
 })
 
+Waves.hasMany(Comments,{foreignKey:'waveId'})
+Comments.belongsTo(Waves,{foreignKey:'waveId'})
 
 export default Waves;

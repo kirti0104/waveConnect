@@ -7,7 +7,8 @@ import axios from "axios";
 import { setUser } from "../redux/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-// Define the UserState interface
+import { toast } from 'react-toastify';
+
 interface UserState {
   token: string;    
   user: {      
@@ -58,8 +59,8 @@ const Login: React.FC = () => {
       Cookies.set("authToken",token);
       Cookies.set("userId",user.id)
       dispatch(setUser({ ...user, isLoggedIn: true ,token})); 
-      navigate("/dashboard"); 
-      alert("Login Successful!");
+      navigate("/app/dashboard"); 
+     toast.success('Login Successfull');
     },
     onError: (error: Error) => {
       console.error("Login error:", error);
@@ -140,7 +141,7 @@ const Login: React.FC = () => {
                 </div>
                  <div className="text-left mt-1">
                   <Link
-                    to="/"
+                    to="/signup"
                     className="text-[#B18D4B] text-sm hover:underline"
                   >
                     Sign Up

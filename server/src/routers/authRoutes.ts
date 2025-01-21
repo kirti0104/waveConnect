@@ -1,5 +1,5 @@
 import express from 'express'
-import {addPreferences, adminLogin, adminSignup, changePassword, createWaves, fetchFriends, getUser, getWaves, inviteFriend, login, signup, updateUser } from '../controllers/authController';
+import {addComment, addPreferences, adminLogin, adminSignup, changePassword, createWaves, fetchFriends, getComments, getUser, getWaves, inviteFriend, login, signup, updateUser } from '../controllers/authController';
 import { adminSignupValidation, inviteFriendValidation, loginValidation, userValidation ,validatePreferences, wavevalidation} from '../middlewares/authValidation';
 import upload from '../middlewares/multer';
 
@@ -26,6 +26,8 @@ router.post('/createWaves/:userId', upload.single('photoUrl'), (req, res, next) 
 
 router.get('/getWaves',getWaves)
 router.put('/changePassword/:userId',changePassword)
+router.post('/addComment/:waveId',addComment)
+router.get('/getComments/:waveId',getComments)
 
 
 export default router;

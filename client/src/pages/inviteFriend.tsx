@@ -57,7 +57,7 @@ const dispatch=useDispatch();
    const handleSubmit = (values: FormValues) => {
     console.log("Form Values:", values);
     mutation.mutate(values)
-    navigate('/friends');
+    navigate('/app/friends');
   };
 
   return (

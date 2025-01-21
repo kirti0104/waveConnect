@@ -7,6 +7,8 @@ import AdminUser from "../models/adminUser.model";
 import Preferences from "../models/preferences.model";
 import Friends from "../models/friends.model";
 import Waves from "../models/waves.model";
+import Comments from "../models/comments.model";
+import { where } from "sequelize";
 
 //to register the admin
 
@@ -404,5 +406,48 @@ export const changePassword=async(req:any,res:any)=>{
   catch (error) {
     console.error(error)
     res.status(500).json({ message: 'An error occurred while updating password'});
+  }
+}
+
+//to add comment to the waves
+
+export const addComment=async(req:any,res:any)=>{
+  const waveId=req.params.waveId;
+  const{comment}=req.body
+  try{
+      const wave=await Waves.findByPk(waveId);
+      if(!wave)
+      {
+        res.status(404).json({message:'wave not found'})
+      }
+      const newComment=await Comments.create({
+        comment,waveId
+      })
+      res.status(200).json({message:'comment added successfully'})
+  }
+  catch(error){
+    console.error(error)
+    res.status(500).json({message:'an error occured while adding comment'})
+  }
+}
+
+//to get the comments of that particular wave
+
+export const getComments=async(req:any,res:any)=>{
+  const waveId=req.params.waveId;
+  try{
+     const comments=await Comments.findAll({where:{waveId:waveId}, order: [['createdAt', 'DESC']], 
+      limit: 4,
+     include:[
+        {
+          model:Waves,
+          attributes:['name']
+        }
+      ] })
+      res.status(200).json({message:'comments fetched successfully',comments})
+  }
+    catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error fetching comments' });
   }
 }

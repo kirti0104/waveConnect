@@ -44,7 +44,7 @@ const Friends = () => {
           <input type="text"  placeholder="Search" className="w-[354px] h-[50px] rounded-full border border-gray-400 bg-gray-100
                text-gray-800 placeholder-gray-600 outline-none px-4 text-sm
                focus:ring-2 focus:ring-gray-300 transition-all" />
-            <Link to="/inviteFriend">
+            <Link to="/app/inviteFriend">
            <button type="button" className="w-60 h-[50px] px-6 py-2 text-white text-xl bg-[#3E5677] hover:bg-[#2E4155] rounded-md text-sm" >
           Invite Friend
            </button>

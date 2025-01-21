@@ -1,5 +1,5 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import store from "./redux/store";
@@ -17,12 +17,13 @@ import Friends from "./pages/friends";
 import CreateWaves from "./pages/createWaves";
 import Dashboard from "./pages/dashboard";
 import ChangePassword from "./pages/changePassword";
-
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Cookies from "js-cookie";
 
 
 const queryClient = new QueryClient();
-
+const token = Cookies.get("authToken")
 //console.log("////",store.getState());
 const router = createBrowserRouter([
   {
@@ -49,9 +50,8 @@ const router = createBrowserRouter([
     element: <AdminDashboard />,
   },
   
-  
   {
-    path: "/",
+    path: "app",
     element: (
       <ProtectedRoute>
         <Layout />
@@ -60,10 +60,8 @@ const router = createBrowserRouter([
     children: [
       {
         path: "dashboard",
-        element:
-        <ProtectedRoute>
-          <Dashboard/>,
-          </ProtectedRoute>
+        element: <Dashboard/>,
+       
       },
       {
         path: "profile/:userId",
@@ -86,14 +84,21 @@ const router = createBrowserRouter([
         element: <Friends />,
      },
      {
-    path: "/createWaves",
+    path: "createWaves",
     element: <CreateWaves />,
   },
    {
-    path: "/changePassword",
+    path: "changePassword",
     element: <ChangePassword/>,
   },
     ],
+  },
+      
+  {
+    path: "*", // all the non-existing path of routes
+    element: (
+      <Navigate to={token ? "/app/dashboard" : "/login"} />
+    ),
   },
 ]);
 
@@ -102,6 +107,7 @@ const App: React.FC = () => {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
+        <ToastContainer/>
       </QueryClientProvider>
     </Provider>
   );

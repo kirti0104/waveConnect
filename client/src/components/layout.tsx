@@ -1,12 +1,17 @@
 // src/components/Layout.tsx
 import React from "react";
-import { useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
-import { RootState } from "../redux/store";
 import Cookies from "js-cookie";
 
 const Layout: React.FC = () => {
-  const user=useSelector((state:RootState)=>state.user)
+  const storedData = localStorage.getItem('user');
+  
+  if (!storedData) {
+    return <p>No user data found.</p>;
+  }
+
+  // Parse the data into an object
+  const userData = JSON.parse(storedData);
    
   return (
     <div className="flex h-screen w-full flex-row">
@@ -16,38 +21,38 @@ const Layout: React.FC = () => {
         </div>
         <ul className="text-white px-12 pt-4 space-y-4">
         <li className="cursor-pointer hover:bg-[#BEA16E] p-2 rounded flex items-center gap-2">
-           <Link to="/main/dashboard" className="flex items-center gap-2">
+           <Link to="/app/dashboard" className="flex items-center gap-2">
              <img src="/dashboard.png" className="h-8 w-8" alt="Dashboard Icon" />
               <span>Dashboard</span>
               </Link>
              </li>
           <li className="cursor-pointer hover:bg-[#BEA16E] p-2 rounded flex items-center gap-2">
-             <Link to="/profile/:userId" className="flex items-center gap-2">
+             <Link to="/app/profile/:userId" className="flex items-center gap-2">
             <img src="/linechart.png" className="h-8 w-8" alt="linechart Icon" />
             <span>My Profile</span>
             </Link>
          </li>
            <li className="cursor-pointer hover:bg-[#BEA16E] p-2 rounded flex items-center gap-2">
-            <Link to="/preferences" className="flex items-center gap-2">
+            <Link to="/app/preferences" className="flex items-center gap-2">
             <img src="/linechart.png" className="h-8 w-8" alt="linechart Icon" />
             <span>Preferences</span>
             </Link>
          </li>
            <li className="cursor-pointer hover:bg-[#BEA16E] p-2 rounded flex items-center gap-2">
-             <Link to="/friends" className="flex items-center gap-2">
+             <Link to="/app/friends" className="flex items-center gap-2">
             <img src="/linechart.png" className="h-8 w-8" alt="linechart Icon" />
             <span>Friends</span>
             </Link>
          </li>
             <li className="cursor-pointer hover:bg-[#BEA16E] p-2 rounded flex items-center gap-2">
-              <Link to="/createWaves" className="flex items-center gap-2">
+              <Link to="/app/createWaves" className="flex items-center gap-2">
               <img src="/linechart.png" className="h-8 w-8" alt="linechart Icon" />
             <span>Create Waves</span>
               </Link>
             
          </li>
             <li className="cursor-pointer hover:bg-[#BEA16E] p-2 rounded flex items-center gap-2">
-              <Link to="/changePassword" className="flex items-center gap-2">
+              <Link to="/app/changePassword" className="flex items-center gap-2">
             <img src="/linechart.png" className="h-8 w-8" alt="linechart Icon" />
             <span>Change Password</span>
             </Link>
@@ -71,7 +76,7 @@ const Layout: React.FC = () => {
                <img src="/user.jpg" alt="Profile" className="w-12 h-12 rounded-full border border-gray-300" />
                <div className="flex flex-col text-right">
                   <span className="text-sm font-medium text-gray-500">Good Afternoon</span>
-                  <span className="text-base font-semibold text-gray-800">{user.firstName} {user.lastName}</span>
+                  <span className="text-base font-semibold text-gray-800">{userData.firstName} {userData.lastName}</span>
                 </div>
              </div>
             </div>
