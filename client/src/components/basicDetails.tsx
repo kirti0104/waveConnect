@@ -7,6 +7,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useInactivity } from "../hooks/autoLogout";
 
 // Validation schema using Yup
 const validationSchema = Yup.object().shape({
@@ -30,6 +31,9 @@ const validationSchema = Yup.object().shape({
 
 const BasicDetails: React.FC = () => {
   const user = useSelector((state: RootState) => state.user);
+  const value = useInactivity()
+  console.log(value);
+  
   const dispatch = useDispatch();
   const queryClient=useQueryClient();
   const userId = Cookies.get("userId");

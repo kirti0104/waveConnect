@@ -451,3 +451,9 @@ export const getComments=async(req:any,res:any)=>{
     res.status(500).json({ message: 'Error fetching comments' });
   }
 }
+
+//change user profile and store it in database and add new profile also
+
+export const changePicture=async(req:any, res:any)=>{
+  
+}

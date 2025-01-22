@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { setUser } from "../redux/userSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 // Define the UserState interface
 interface UserState {
@@ -75,6 +76,7 @@ const Signup: React.FC = () => {
       dispatch(setUser({ ...data, isLoggedIn: true }));
       alert("Registration Successful!");
       navigate("/login");
+      toast.success('You have registered successfully')
     },
     onError: (error: Error) => {
       console.error("Error registering user:", error);

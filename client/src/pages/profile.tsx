@@ -10,6 +10,9 @@ const profile = () => {
     const dispatch=useDispatch();
      const activeTab = useSelector((state: RootState) => state.tab.activeTab);
     
+     const handleChangePicture=()=>{
+      
+     }
  
   return (
     <div className='profile'>
@@ -24,7 +27,8 @@ const profile = () => {
             <img src="/profileImage.jpg" alt="Profile"className="w-40 h-40 rounded-full border-2 border-white" />
           </div>
           <div className='change-button text-right'>
-            <button className="w-[205px] h-[50px] rounded-[10px] bg-[#FFFFFF] mt-12 mr-4 font-bold text-[#3E5677]">
+            <button className="w-[205px] h-[50px] rounded-[10px] bg-[#FFFFFF] mt-12 mr-4 font-bold text-[#3E5677]"
+            onClick={handleChangePicture}>
            Change Picture
            </button>
           </div>

@@ -20,6 +20,7 @@ import ChangePassword from "./pages/changePassword";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from "js-cookie";
+import AutoLogout from "./hooks/autoLogout";
 
 
 const queryClient = new QueryClient();
@@ -54,7 +55,9 @@ const router = createBrowserRouter([
     path: "app",
     element: (
       <ProtectedRoute>
+        <AutoLogout> 
         <Layout />
+        </AutoLogout>
       </ProtectedRoute>
     ),
     children: [
@@ -106,8 +109,10 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
+        {/* <AutoLogout> */}
         <RouterProvider router={router} />
         <ToastContainer/>
+        {/* </AutoLogout> */}
       </QueryClientProvider>
     </Provider>
   );
