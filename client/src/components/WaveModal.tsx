@@ -33,7 +33,6 @@ const CustomModal: React.FC<ModalProps> = ({isOpen,onClose,waveMessage, waveUser
     return response.data;
   },
   onSuccess: (data) => {
-   
     console.log('Comment added successfully:', data);
     refetch();
   },
@@ -48,8 +47,8 @@ const CustomModal: React.FC<ModalProps> = ({isOpen,onClose,waveMessage, waveUser
     }
 
       const { data: comments, isLoading, error ,refetch} = useQuery({
-       queryKey: ['comments'], 
-      queryFn: fetchComments, 
+        queryKey: ['comments'], 
+        queryFn: fetchComments, 
       });
    if (isLoading) {
     return <div>Loading...</div>;

@@ -2,8 +2,8 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../redux/store';
 import { setActiveTab } from '../redux/tabSlice';
-import BasicDetails from '../components/basicDetails';
-import PersonalDetailsForm from '../components/personalDetails';
+import BasicDetails from '../components/BasicDetails';
+import PersonalDetailsForm from '../components/PersonalDetails';
 
 
 const profile = () => {

@@ -3,24 +3,24 @@ import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom"
 import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import store from "./redux/store";
-import Signup from "./pages/signup";
-import Login from "./pages/login";
-import Layout from "./components/layout";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import Layout from "./components/Layout";
 import {ProtectedRoute,ProtectedLoginRoute} from "./utils/protectedRoutes";
-import Profile from "./pages/profile";
-import AdminSignup from "./pages/adminSignup";
-import AdminLogin from "./pages/adminLogin";
-import AdminDashboard from "./pages/adminDashboard";
-import Preferences from "./pages/preferences";
-import InviteFriend from "./pages/inviteFriend";
-import Friends from "./pages/friends";
-import CreateWaves from "./pages/createWaves";
-import Dashboard from "./pages/dashboard";
-import ChangePassword from "./pages/changePassword";
+import Profile from "./pages/Profile";
+import AdminSignup from "./pages/AdminSignup";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
+import Preferences from "./pages/Preferences";
+import InviteFriend from "./pages/InviteFriend";
+import Friends from "./pages/Friends";
+import CreateWaves from "./pages/CreateWaves";
+import Dashboard from "./pages/Dashboard";
+import ChangePassword from "./pages/ChangePassword";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from "js-cookie";
-import AutoLogout from "./hooks/autoLogout";
+import AutoLogout from "./components/autoLogout";
 
 
 const queryClient = new QueryClient();

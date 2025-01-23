@@ -1,12 +1,13 @@
 import React from 'react'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import * as Yup from "yup";
-import { useMutation } from '@tanstack/react-query';
+import { useMutation ,useQueryClient} from '@tanstack/react-query';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setFormValues } from '../redux/inviteFriendsSlice';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 interface FormValues {
   receiverFullName: string;
@@ -23,8 +24,10 @@ const InviteFriend = () => {
 
   const userId=Cookies.get('userId');
   const navigate=useNavigate();
-
-const dispatch=useDispatch();
+   const dispatch=useDispatch();
+   const queryClient=useQueryClient();
+   
+   
     const validationSchema = Yup.object({
     receiverFullName: Yup.string()
       .min(2, "Full Name must be at least 2 characters")
@@ -40,24 +43,24 @@ const dispatch=useDispatch();
   const mutation=useMutation({
     mutationFn:async(formData:FormValues)=>{
       console.log("Payload Sent:", formData);
-      const response=await axios.post(`http://localhost:8004/app/inviteFriend/${userId}`,formData)
+      const response=await axios.post(`http://localhost:8004/app/inviteFriend/${userId}`,formData) 
       return response.data;
     },
     onSuccess:(values:FormValues)=>{
       console.log('form submitted successfully')
-      dispatch(setFormValues(values))
-      
+      dispatch(setFormValues(values))  
+      queryClient.invalidateQueries({queryKey:['friends']});
     },
      onError: (error) => {
       console.error('Error submitting form:', error);
     },
-
   })
 
    const handleSubmit = (values: FormValues) => {
     console.log("Form Values:", values);
     mutation.mutate(values)
     navigate('/app/friends');
+      toast.success('Friend Request sent successfuly')
   };
 
   return (

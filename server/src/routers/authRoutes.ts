@@ -12,7 +12,7 @@ router.post('/login',loginValidation,login);
 router.get('/getUser/:userId',getUser)
 router.put('/updateUser/:userId',updateUser);
 router.post('/addPreferences',validatePreferences,addPreferences)
-router.post('/inviteFriend/:id',inviteFriendValidation,inviteFriend)
+router.post('/inviteFriend/:userId',inviteFriendValidation,inviteFriend)
 router.get('/fetchFriends/:id',fetchFriends)
 
 router.post('/createWaves/:userId', upload.single('photoUrl'), (req, res, next) => {

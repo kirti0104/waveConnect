@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import WaveModal from '../components/waveModal';
+import WaveModal from '../components/WaveModal';
 
 interface User{
    firstName: string;

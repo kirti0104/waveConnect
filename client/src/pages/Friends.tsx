@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
@@ -14,16 +14,22 @@ type Friend = {
 
 const Friends = () => {
 
+ 
      const userId=Cookies.get('userId')
     const fetchFriends=async()=>{
         const response=await axios.get(`http://localhost:8004/app/fetchFriends/${userId}`)
          console.log('API Response:', response.data);
         return response.data.request;
     }
-    const { isLoading,  error, data:friends } = useQuery<Friend[]>({
+    const { isLoading,  error, data:friends,refetch } = useQuery<Friend[]>({
     queryKey: ["friends"],
     queryFn: fetchFriends,
   });
+
+   useEffect(()=>{
+     refetch();
+  },[refetch])
+
     if (isLoading) {
     return <div>Loading...</div>;
   }

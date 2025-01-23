@@ -9,6 +9,7 @@ import Friends from "../models/friends.model";
 import Waves from "../models/waves.model";
 import Comments from "../models/comments.model";
 import { where } from "sequelize";
+import { sendWelcomeEmail } from "../config/mailer";
 
 //to register the admin
 
@@ -75,40 +76,36 @@ export const adminLogin = async (req: any, res: any) => {
 
 export const signup=async(req:any,res:any)=>
 {
-    const{firstName,lastName,email,phoneNumber,password}=req.body;
+    const{firstName,lastName,email,phoneNumber,password,senderId}=req.body;
     const hashedPassword= await bcrypt.hash(password,10)
+   
     try{      
-       const existingUser=await User.findOne({where:{email}});
-       if(existingUser)
-       {
+        const existingUser=await User.findOne({where:{email}});
+        if(existingUser)
+        {
           return res.status(400).json({message:"Email already exists. Please login or use a different email"})
-       }
-        const newUser=await User.create({
+        }
+          const newUser=await User.create({
             firstName,
             lastName,
             email,
             phoneNumber,
             password:hashedPassword,        
-        });
-        await logAuditEvent("user registration", `New user registered with email: ${email}`, newUser.id);
-
-           console.log("Starting Friends.findOne query...");
-
-          const pendingRequest = await Friends.findOne({
-      where: { receiverEmail: email, status: 'pending' },
-    });
-    console.log("Friends.findOne query completed.");
-    console.log("Email used for query:", email);
-    console.log("Pending requests fetched:", pendingRequest);
-
-    if (pendingRequest) {
-      await Friends.update(
-        { status: 'accepted' },
-        { where: { receiverEmail: email, status: 'pending' } });}     
-         return res.status(201).json({message:"user registered successfully"});  
-        }
+          });
+          await logAuditEvent("user registration", `New y...user registered with email: ${email}`, newUser.id);
+          
+          const pendingRequest=await Friends.findOne({
+            where:{senderId:senderId,recieverEmail:email,status:'pending'}
+          })
+          if(pendingRequest)
+          {
+             await pendingRequest.update({status:'accepted'})
+          }
+            
+          return res.status(201).json({message:"user registered successfully"});  
+          }
     catch(error){
-        return res.status(500).json({message:'registration failed',error})
+      return res.status(500).json({message:'registration failed',error})
     }
 }
 
@@ -294,20 +291,21 @@ export const addPreferences = async (req: any, res: any) => {
 
 export const inviteFriend=async(req:any,res:any)=>{
   const{receiverFullName,receiverEmail,message}=req.body
-  const senderId=req.params.id;
+  const senderId=req.params.userId;
   try{
-      const existingRequest=await Friends.findOne({where:{senderId,receiverEmail}})
+      const existingRequest=await Friends.findOne({where:{senderId,receiverEmail,status:'pending'}})
       if(existingRequest){
-        if (existingRequest.status === 'accepted') {
-         return res.status(400).send('You are already friends.');
-         } else if (existingRequest.status === 'pending') {
-         return res.status(401).send('Friend request is already pending.');
-        }
+         res.status(400).json({message:'friends request already exists'})
        }
-       const newRequest=await Friends.create({
-        senderId,receiverFullName,receiverEmail,message,status:'pending'
-       })
-         return res.status(200).json({ message: 'Friend request sent successfully.', request: newRequest,});
+
+       const friend=await User.findOne({where:{email:receiverEmail,status:'accepted'}})
+       if(!friend)
+       {
+          const newRequest=await Friends.create({
+          senderId,receiverFullName,receiverEmail,message,status:'pending'});
+          sendWelcomeEmail(senderId,receiverEmail)
+          return res.status(200).json({ message: 'Friend request sent successfully.'},newRequest);
+       }  
   }
   catch (error) {
     console.error(error);

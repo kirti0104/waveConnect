@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { setUser } from "../redux/userSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate} from "react-router-dom";
 import { toast } from 'react-toastify';
 
 // Define the UserState interface
@@ -25,12 +25,18 @@ interface SignupFormValues {
   phoneNumber: string;
   password: string;
   confirmPassword: string;
+  
 }
 
 const Signup: React.FC = () => {
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const location = useLocation();
+  const params = new URLSearchParams(location.search); 
+  const senderId = params.get('senderId');
+  console.log(senderId)
+  
   const initialValues: UserState = {
     firstName: "",
     lastName: "",

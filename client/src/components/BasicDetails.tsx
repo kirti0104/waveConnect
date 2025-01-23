@@ -7,7 +7,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useInactivity } from "../hooks/autoLogout";
+import { useInactivity } from "./autoLogout";
 
 // Validation schema using Yup
 const validationSchema = Yup.object().shape({
