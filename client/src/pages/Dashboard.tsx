@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import WaveModal from '../components/WaveModal';
+import FriendsList from '../components/FriendsList';
 
 interface User{
    firstName: string;
@@ -17,7 +18,7 @@ interface Wave {
 
 const Dashboard = () => {
 
-   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedWave, setSelectedWave] = useState<Wave | null>(null);
 
   // Fetch waves from backend
@@ -33,7 +34,7 @@ const Dashboard = () => {
     }
   };
 
-  // Using TanStack Query to fetch waves
+  
   const { data: waves, isLoading, error } = useQuery<Wave[],Error>({
      queryKey: ['waves'], 
     queryFn: fetchWaves, 
@@ -49,22 +50,25 @@ const Dashboard = () => {
     return <div>Failed to load waves.</div>;
   }
 
-    const openModal = (wave: Wave) => {
+  //to open the modal
+  const openModal = (wave: Wave) => {
     const waveId=wave.id;
     localStorage.setItem('waveId',waveId.toString())
     setSelectedWave(wave);
     setIsModalOpen(true);
   };
 
+  //to close the modal
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedWave(null);
   };
  
 
+
   return (
     <div className="dashboard">
-      <div className="mt-2 border-b bg-white rounded-[10px] p-8 shadow-lg">
+        <div className="mt-2 border-b bg-white rounded-[10px] p-8 shadow-lg">
         <h1 className="text-xl text-[#292929]">Making Waves</h1>
         <div className="waves-list mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {waves?.map((wave: Wave) => (
@@ -88,17 +92,18 @@ const Dashboard = () => {
 
           ))}
         </div>
-      </div>
+    </div>
       <div className='mt-4 bg-white rounded-[10px] p-8'>
-           <h1 className="text-xl text-[#292929]">Friends</h1>
+        <h1 className="text-xl text-[#292929]">Friends</h1>
+        <FriendsList limit={4}/>
       </div>
+
       {selectedWave && (
         <WaveModal
           isOpen={isModalOpen}
           onClose={closeModal}
           waveMessage={selectedWave.message}
-          waveUserName={`${selectedWave.User.firstName} ${selectedWave.User.lastName}`}
-         
+          waveUserName={`${selectedWave.User.firstName} ${selectedWave.User.lastName}`}  
         />
       )}
     </div>
