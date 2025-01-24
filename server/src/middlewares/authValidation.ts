@@ -128,6 +128,7 @@ export const userValidation = (req: Request, res: Response, next: NextFunction):
       .messages({
         "string.pattern.base": "Kids must be a numeric value",
       }),
+      senderId: Joi.any(),
   });
 
   const { error } = schema.validate(req.body, { abortEarly: false });

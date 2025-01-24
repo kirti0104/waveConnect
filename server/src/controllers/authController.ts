@@ -77,6 +77,7 @@ export const adminLogin = async (req: any, res: any) => {
 export const signup=async(req:any,res:any)=>
 {
     const{firstName,lastName,email,phoneNumber,password,senderId}=req.body;
+    console.log("11111111",req.body)
     const hashedPassword= await bcrypt.hash(password,10)
    
     try{      
@@ -92,7 +93,7 @@ export const signup=async(req:any,res:any)=>
             phoneNumber,
             password:hashedPassword,        
           });
-          await logAuditEvent("user registration", `New y...user registered with email: ${email}`, newUser.id);
+          await logAuditEvent("user registration", `New user registered with email: ${email}`, newUser.id);
           
           const pendingRequest=await Friends.findOne({
             where:{senderId:senderId,recieverEmail:email,status:'pending'}

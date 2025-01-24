@@ -80,13 +80,12 @@ const Signup: React.FC = () => {
     },
     onSuccess: (data: UserState) => {
       dispatch(setUser({ ...data, isLoggedIn: true }));
-      alert("Registration Successful!");
       navigate("/login");
       toast.success('You have registered successfully')
     },
     onError: (error: Error) => {
-      console.error("Error registering user:", error);
-      alert("Registration failed.");
+      console.error('Error response:', error.response?.data || error.message);
+  toast.error(error.response?.data?.message || 'Registration failed')
     },
   });
 
@@ -94,7 +93,9 @@ const Signup: React.FC = () => {
     values: SignupFormValues,
     { resetForm }: FormikHelpers<SignupFormValues>
   ) => {
-    mutation.mutate(values);
+
+    const formdata={...values,senderId}
+    mutation.mutate(formdata);
     resetForm();
   };
 
