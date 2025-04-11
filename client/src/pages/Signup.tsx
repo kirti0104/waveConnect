@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { useMutation } from "@tanstack/react-query";
@@ -7,6 +7,7 @@ import axios from "axios";
 import { setUser } from "../redux/userSlice";
 import { Link, useLocation, useNavigate} from "react-router-dom";
 import { toast } from 'react-toastify';
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 // Define the UserState interface
 interface UserState {
@@ -37,6 +38,12 @@ const Signup: React.FC = () => {
   const senderId = params.get('senderId');
   console.log(senderId)
   
+  const[showPassword, setShowPassword]=useState(true)
+ 
+  const tooglePassword=()=>{
+    setShowPassword(!showPassword)
+  }
+
   const initialValues: UserState = {
     firstName: "",
     lastName: "",
@@ -213,12 +220,15 @@ const Signup: React.FC = () => {
                   >
                     Password
                   </label>
-                  <Field
-                    type="password"
-                    id="password"
-                    name="password"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                  />
+                  <div className="flex w-full  py-2 border border-gray-300 rounded-md ">
+                    <Field type={showPassword ? "password" : "text"}  id="password"name="password" />
+                   <button  type="button" onClick={tooglePassword}
+                   className="ml-20" 
+                  >
+                    {showPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
+                  </button>
+                  </div>
+                           
                   <ErrorMessage
                     name="password"
                     component="div"
@@ -234,12 +244,13 @@ const Signup: React.FC = () => {
                   >
                     Confirm Password
                   </label>
-                  <Field
-                    type="password"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                  />
+                  <div className="flex w-full  py-2 border border-gray-300 rounded-md ">
+                      <Field type={showPassword ? "password" : "text"}   id="confirmPassword"  name="confirmPassword" />
+                        <button type="button" onClick={tooglePassword} className="ml-20"   >
+                    {showPassword ? <AiFillEyeInvisible size={20} /> : <AiFillEye size={20} />}
+                  </button>
+                  </div>
+                 
                   <ErrorMessage
                     name="confirmPassword"
                     component="div"
@@ -261,6 +272,7 @@ const Signup: React.FC = () => {
                   <button
                     type="submit"
                     className="px-6 py-2 text-white bg-[#3E5677] hover:bg-[#2E4155] rounded-md text-sm"
+                    
                   >
                     Sign Up
                   </button>

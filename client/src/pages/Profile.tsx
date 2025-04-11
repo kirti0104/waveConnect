@@ -23,7 +23,7 @@ const profile = () => {
 
         <div className="mt-0 border-b bg-white rounded-[10px] shadow-lg mr-2">
         <div className="profile-rectangle bg-[#C5B084] w-auto h-[154px] rounded-[10px] relative">
-          <div className="absolute -bottom-8 right-[75%] transform -translate-x-1/2">
+          <div className="absolute -bottom-10 right-[72%] transform -translate-x-1/2 ">
             <img src="/profileImage.jpg" alt="Profile"className="w-40 h-40 rounded-full border-2 border-white" />
           </div>
           <div className='change-button text-right'>

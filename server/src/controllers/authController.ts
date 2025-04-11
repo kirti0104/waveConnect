@@ -94,15 +94,19 @@ export const signup=async(req:any,res:any)=>
             password:hashedPassword,        
           });
           await logAuditEvent("user registration", `New user registered with email: ${email}`, newUser.id);
-          
-          const pendingRequest=await Friends.findOne({
-            where:{senderId:senderId,recieverEmail:email,status:'pending'}
+
+          if(senderId)
+          {
+              const pendingRequest=await Friends.findOne({
+            where:{senderId:senderId || null,recieverEmail:email,status:'pending'}
           })
           if(pendingRequest)
           {
              await pendingRequest.update({status:'accepted'})
           }
             
+          }
+             
           return res.status(201).json({message:"user registered successfully"});  
           }
     catch(error){

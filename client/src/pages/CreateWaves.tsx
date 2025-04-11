@@ -107,7 +107,7 @@ const CreateWaves = () => {
                     if (event.target.files) {
                       setFieldValue('photoUrl', event.target.files[0]);
                       setPhotoUrl(event.target.files[0]); 
-                    }
+                    } 
                   }}
                 />
                 <ErrorMessage
