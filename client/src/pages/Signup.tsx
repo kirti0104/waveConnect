@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
+import { ErrorMessage, Field, Form, Formik,} from "formik";
 import * as Yup from "yup";
-import { useMutation } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
-import axios from "axios";
-import { setUser } from "../redux/userSlice";
-import { Link, useLocation, useNavigate} from "react-router-dom";
+
+import { Link, useLocation, } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { register } from "../slices/auth";
 
 // Define the UserState interface
 interface UserState {
@@ -32,7 +31,7 @@ interface SignupFormValues {
 const Signup: React.FC = () => {
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const location = useLocation();
   const params = new URLSearchParams(location.search); 
   const senderId = params.get('senderId');
@@ -80,31 +79,14 @@ const Signup: React.FC = () => {
       .required("Confirm Password is required"),
   });
 
-  const mutation = useMutation({
-    mutationFn: async (formData: SignupFormValues) => {
-      const response = await axios.post("http://localhost:8004/app/signup", formData);
-      return response.data;
-    },
-    onSuccess: (data: UserState) => {
-      dispatch(setUser({ ...data, isLoggedIn: true }));
-      navigate("/login");
-      toast.success('You have registered successfully')
-    },
-    onError: (error: Error) => {
-      console.error('Error response:', error.response?.data || error.message);
-  toast.error(error.response?.data?.message || 'Registration failed')
-    },
-  });
 
-  const handleSubmit = (
-    values: SignupFormValues,
-    { resetForm }: FormikHelpers<SignupFormValues>
-  ) => {
 
-    const formdata={...values,senderId}
-    mutation.mutate(formdata);
-    resetForm();
-  };
+  const handleSubmit= (values:SignupFormValues)=>{
+    const userData=values;
+    dispatch(register(userData))
+  
+  }
+
 
   return (
     <div className="w-screen h-screen flex overflow-hidden">

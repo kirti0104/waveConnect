@@ -20,7 +20,7 @@ const AutoLogout: React.FC<AutoLogoutProps> = ({ children }) => {
   const [timeout, setTimeoutState] = useState<NodeJS.Timeout | null>(null);
   const navigate = useNavigate();
   
-  const inactivityLimit = 300; 
+  const inactivityLimit = 3000; 
   const logoutUser = () => {
     localStorage.removeItem('user');
     Cookies.remove('authToken')
