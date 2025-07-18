@@ -3,9 +3,11 @@
 import React, { useState } from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-import { Link, useLocation,useNavigate } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { signupUser } from "../api/authApi";
+import { handleApiError } from "../utils/handleApiError";
+import {toast} from 'react-toastify';
 
 
 
@@ -66,18 +68,17 @@ const Signup: React.FC = () => {
   const handleSubmit = async(values: UserState) => {
    
    try{
-    await signupUser(values)
+    const response=await signupUser(values)
+    toast.success(response.data.message)
     navigate('/Login')
 
    }
-   catch(error:any)
+   catch(error:unknown)
    {
-    console.error('❌ Signup Error:', error.response?.data || error.message);
-    alert(error.response?.data?.message || 'Signup failed');
+    const message = handleApiError(error, 'Signup failed');
+    toast.error(message)
+   
    }
-   
-   
-  
   };
 
   return (
