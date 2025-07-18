@@ -1,6 +1,24 @@
 import { NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
+
+
+export const generateToken=async(user:any)=>{
+  const payload={
+    id:user.id,
+    email:user.email,
+    role:user.role
+  }
+  const secretKey=process.env.JWT_SECRET || ' ';
+  const token=jwt.sign(payload,secretKey,{
+    expiresIn:'7h'
+  });
+  return token;
+}
+
+
+
+
 export const authenticateToken = (req: Request,res: Response,next: NextFunction) => {
   const authHeader = req.headers.authorization;
 

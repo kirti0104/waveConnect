@@ -10,6 +10,8 @@ import Waves from "../models/waves.model";
 import Comments from "../models/comments.model";
 import { where } from "sequelize";
 import { sendWelcomeEmail } from "../config/mailer";
+import catchAsync from "../utils/catchAsync";
+import authService from "../services/auth.service";
 
 //to register the admin
 
@@ -74,45 +76,13 @@ export const adminLogin = async (req: any, res: any) => {
 };
 //api to register the user
 
-export const signup=async(req:any,res:any)=>
+export const signup=catchAsync(async(req:Request,res:Response)=>
 {
-    const{firstName,lastName,email,phoneNumber,password,senderId}=req.body;
-    console.log("11111111",req.body)
-    const hashedPassword= await bcrypt.hash(password,10)
-   
-    try{      
-        const existingUser=await User.findOne({where:{email}});
-        if(existingUser)
-        {
-          return res.status(400).json({message:"Email already exists. Please login or use a different email"})
-        }
-          const newUser=await User.create({
-            firstName,
-            lastName,
-            email,
-            phoneNumber,
-            password:hashedPassword,        
-          });
-          await logAuditEvent("user registration", `New user registered with email: ${email}`, newUser.id);
-
-          if(senderId)
-          {
-              const pendingRequest=await Friends.findOne({
-            where:{senderId:senderId || null,recieverEmail:email,status:'pending'}
-          })
-          if(pendingRequest)
-          {
-             await pendingRequest.update({status:'accepted'})
-          }
-            
-          }
-             
-          return res.status(201).json({message:"user registered successfully"});  
-          }
-    catch(error){
-      return res.status(500).json({message:'registration failed',error})
-    }
-}
+        await authService.signup(req.body)
+          return res.status(201).json({
+          success:true,
+          message:"User registered successfully"});  
+})
 
 //to login the user
 
