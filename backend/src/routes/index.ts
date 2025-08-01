@@ -1,5 +1,6 @@
 import express, { Router } from "express";
 import authRouter from "./authRoutes";
+import dashboardRouter from "./dashboardRoutes";
 
 
 interface Route {
@@ -14,6 +15,10 @@ const defaultRoutes: Route[] = [
     path: "/auth",
     route: authRouter,
   },
+  {
+    path:"/dashboard",
+    route:dashboardRouter
+  }
  
 ];
 

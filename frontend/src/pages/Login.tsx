@@ -41,7 +41,7 @@ const Login: React.FC = () => {
       .required("Email is required"),
     password: Yup.string()
       .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d#@$!%*?&]{8,}$/,
         "Password must contain at least 8 characters, one uppercase, one lowercase, one number, and one special character"
       )
       .required("Password is required"),
@@ -50,7 +50,7 @@ const Login: React.FC = () => {
  
   const mutation = useMutation({
     mutationFn: async (formData: LoginFormValues) => {
-      const response = await axios.post("http://localhost:8004/app/login", formData);
+      const response = await axios.post("http://localhost:8004/api/auth/login", formData);
        console.log("Response Data:", response.data);
       return response.data; 
     },

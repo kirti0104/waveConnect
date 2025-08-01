@@ -5,9 +5,9 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Link,useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { signupUser } from "../api/authApi";
 import { handleApiError } from "../utils/handleApiError";
 import {toast} from 'react-toastify';
+import axios from "axios";
 
 
 
@@ -56,7 +56,7 @@ const Signup: React.FC = () => {
       .required("Phone number is required"),
     password: Yup.string()
       .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$#!%*?&]{8,}$/,
         "At least 8 characters, uppercase, lowercase, number, and special character"
       )
       .required("Password is required"),
@@ -68,7 +68,7 @@ const Signup: React.FC = () => {
   const handleSubmit = async(values: UserState) => {
    
    try{
-    const response=await signupUser(values)
+    const response=await axios.post("http://localhost:8004/api/auth/signup", values);
     toast.success(response.data.message)
     navigate('/Login')
 

@@ -64,7 +64,7 @@ export const userValidation = (req: Request, res: Response, next: NextFunction):
         "string.pattern.base": "Phone number must be a valid 10-digit number starting with 6-9",
       }),
     password: Joi.string()
-      .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&]{8,}$/)
+      .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$#!%*?&]{8,}$/)
       .required()
       .messages({
         "string.empty": "Password is required",
@@ -151,7 +151,7 @@ export const loginValidation = (req: Request, res: Response, next: NextFunction)
       "string.email": "Email must be a valid email address",
     }),
     password: Joi.string()
-      .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
+      .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%#*?&])[A-Za-z\d@$!%#*?&]{8,}$/)
       .required()
       .messages({
         "string.empty": "Password is required",
@@ -297,6 +297,7 @@ const { error } = schema.validate(req.body, { abortEarly: false });
 
  export const wavevalidation = (req: Request, res: Response, next: NextFunction): void => {
   console.log("--------validation check started")
+
   const schema = Joi.object({
     name: Joi.string().min(3).max(100).required().messages({
       'string.base': 'Name must be a string',

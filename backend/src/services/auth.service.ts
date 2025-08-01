@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt'
 
 
 const signup=async(data:any)=>{
+   try{
     const{firstName,lastName,email,phoneNumber,password,confirmPassword}=data;
 
     const existingUser=await User.findOne({where:{email}})
@@ -17,7 +18,15 @@ const signup=async(data:any)=>{
      const user=await User.create({
         firstName,lastName,email,phoneNumber,password:hashedPassword
      })
-     return;
+     return user;
+   }
+   catch (err: any) {
+    console.error("Sequelize Error:", err);
+    if (err.name === "SequelizeValidationError") {
+      throw new AppError(err.errors[0].message, 400);
+    }
+    throw new AppError("User creation failed", 500);
+  }
 }
 
 export default {signup}

@@ -3,31 +3,22 @@ import {addComment, addPreferences, adminLogin, adminSignup, changePassword, cre
 import { adminSignupValidation, inviteFriendValidation, loginValidation, userValidation ,validatePreferences, wavevalidation} from '../middlewares/authValidation';
 import upload from '../middlewares/multer';
 
-const router=express.Router();
+const authRouter=express.Router();
 
-router.post('/adminSignup',adminSignupValidation,adminSignup)
-router.post('/adminLogin',loginValidation,adminLogin)
-router.post('/signup',userValidation,signup);
-router.post('/login',loginValidation,login);
-router.get('/getUser/:userId',getUser)
-router.put('/updateUser/:userId',updateUser);
-router.post('/addPreferences',validatePreferences,addPreferences)
-router.post('/inviteFriend/:userId',inviteFriendValidation,inviteFriend)
-router.get('/fetchFriends/:id',fetchFriends)
-
-router.post('/createWaves/:userId', upload.single('photoUrl'), (req, res, next) => {
-  if (req.file) {
-    console.log("photo is uploaded properly");
-  } else {
-    console.log("No file uploaded");
-  }
-  next(); 
-}, wavevalidation, createWaves);
-
-router.get('/getWaves',getWaves)
-router.put('/changePassword/:userId',changePassword)
-router.post('/addComment/:waveId',addComment)
-router.get('/getComments/:waveId',getComments)
+authRouter
+  .post('/adminSignup',adminSignupValidation,adminSignup)
+  .post('/adminLogin',loginValidation,adminLogin)
+  .post('/signup',userValidation,signup)
+  .post('/login',loginValidation,login)
+  .get('/getUser/:userId',getUser)
+  .put('/updateUser/:userId',updateUser)
+  .post('/addPreferences',validatePreferences,addPreferences)
+  .post('/inviteFriend/:userId',inviteFriendValidation,inviteFriend)
+  .get('/fetchFriends/:id',fetchFriends)
+ .get('/getWaves',getWaves)
+ .put('/changePassword/:userId',changePassword)
+ .post('/addComment/:waveId',addComment)
+ .get('/getComments/:waveId',getComments)
 
 
-export default router;
+export default authRouter;

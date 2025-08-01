@@ -24,7 +24,7 @@ const Dashboard = () => {
   // Fetch waves from backend
   const fetchWaves = async () => {
     try {
-      const response = await axios.get('http://localhost:8004/app/getWaves');
+      const response = await axios.get('http://localhost:8004/api/dashboard/getWaves');
        console.log("-----",response.data.waves)
       return response.data.waves; 
      

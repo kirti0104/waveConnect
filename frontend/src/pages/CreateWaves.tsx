@@ -6,6 +6,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import { useDispatch } from 'react-redux';
 import { setFormValues } from '../redux/wavesSlice';
+import { useNavigate } from 'react-router-dom';
 
 interface FormValues {
   photoUrl: File | null;
@@ -19,8 +20,9 @@ const initialValues: FormValues = {
 
 const CreateWaves = () => {
   const dispatch = useDispatch();
+    const navigate = useNavigate();
   const userId = Cookies.get('userId');
-  
+  console.log("User ID from cookies:", userId);
   const [photoUrl, setPhotoUrl] = useState<File | null>(null); 
 
   const validationSchema = Yup.object({
@@ -29,7 +31,7 @@ const CreateWaves = () => {
   });
 
   const getUserDetails = async () => {
-    const response = await axios.get(`http://localhost:8004/app/getUser/${userId}`);
+    const response = await axios.get(`http://localhost:8004/api/auth/getUser/${userId}`);
     return response.data;
   };
 
@@ -47,9 +49,10 @@ const CreateWaves = () => {
   const mutation = useMutation({
     mutationFn: async (formData: FormData) => {
       console.log("Payload Sent:", formData);
-      const response = await axios.post(`http://localhost:8004/app/createWaves/${userId}`, formData,
+      const response = await axios.post(`http://localhost:8004/api/dashboard/createWaves/${userId}`, formData,
         { headers: { 'Content-Type': 'multipart/form-data' } }
       )
+      console.log("res[p,seee---",response.data);
       return response.data;
     },
     onSuccess: (data) => {
@@ -73,6 +76,7 @@ const CreateWaves = () => {
 
     mutation.mutate(formData);
     alert('Wave created successfully');
+     navigate("/app/dashboard"); 
     resetForm();
     setPhotoUrl(null);
   };

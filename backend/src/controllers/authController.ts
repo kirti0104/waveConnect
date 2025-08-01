@@ -79,6 +79,7 @@ export const adminLogin = async (req: any, res: any) => {
 export const signup=catchAsync(async(req:Request,res:Response)=>
 {
         await authService.signup(req.body)
+        
           return res.status(201).json({
           success:true,
           message:"User registered successfully"});  
@@ -306,10 +307,11 @@ export const fetchFriends=async(req:any,res:any)=>{
 
 //to create waves for the user
 export const createWaves = async (req: any, res: any) => {
-  console.log("hello");
+  console.log("hello from createWaves");
   const userId = req.params.userId;
   const { name, message } = req.body;
   const photoUrl = req.file ? req.file.path : null; // Ensure the file exists before accessing path
+  console.log("photoUrl", photoUrl);
 
   if (!photoUrl) {
     return res.status(400).json({ message: "No photo uploaded" });
